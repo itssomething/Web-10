@@ -2,6 +2,7 @@ const express = require('express');
 const Router = express.Router();
 
 Router.get('/', (req, res)=>{
+    console.log(req.query.question);
     res.render("ask");
 });
 

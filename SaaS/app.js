@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const fileController = require('./fileController');
 const askRouter = require('./askRouter');
+const questionRouter = require('./questionRouter');
 
 let app = express();
 
@@ -14,16 +15,16 @@ app.set("view engine", "handlebars");
 
 app.get('/', (req, res)=>{
     res.render("index", {
-        layout: "other",
         html: "<h1>Hello</h1>"
     });
 });
 
 app.get('/about', (req, res)=>{
-    
+    res.render("about");
 });
 
 app.use('/ask', askRouter);
+app.use('/question', questionRouter);
 
 app.use(express.static('public'));
 
