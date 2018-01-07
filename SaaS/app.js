@@ -3,9 +3,8 @@ const config = require('./config.json');
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 
-const fileController = require('./fileController');
-const askRouter = require('./askRouter');
-const questionRouter = require('./questionRouter');
+const askRouter = require('./router/askRouter');
+const questionRouter = require('./router/questionRouter');
 
 let app = express();
 
