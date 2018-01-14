@@ -1,6 +1,15 @@
-<div>
+<div class="row text-center">
     <h1>{{question.question}}</h1>
-    <span>Yes: {{question.yes}}</span>
-    <span>No: {{question.no}}</span>
-    <a href="/question">Xem câu hỏi khác</a>
+    <div>
+        <h3>{{total}} vote</h3>
+        <div class="progress">
+            <div class="progress-bar progress-bar-danger" style="width: {{yes}}%">
+                <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{yes}}%
+            </div>
+            <div class="progress-bar progress-bar-primary" style="width: {{no}}%">
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{no}}%
+            </div>
+        </div>
+    </div>
+    <a href="/question"><button class="btn btn-default">Xem câu hỏi khác</button></a>
 </div>

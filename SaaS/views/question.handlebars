@@ -1,8 +1,21 @@
 <div>
-    <h1>{{question.question}}</h1>
+    {{#if question}}
+    <h1 class="text-center">{{question.question}}</h1>
     <form action="/question/{{question.id}}" method="post">
-        <button type="submit" name="answer" value="yes" >Có</button>
-        <button type="submit" name="answer" value="no">Không</button>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <button type="submit" name="answer" value="yes" class="btn btn-danger"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Đúng / Có / Phải</button>
+            </div>
+            <div class="col-md-6 text-center">
+                <button type="submit" name="answer" value="no" class="btn btn-primary"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Sai / Không / Trái</button>
+            </div>
+        </div>
     </form>
-    <a href="/question">Câu hỏi khác</a>
+    <div class="text-center">
+        <a href="/question"><button class="btn btn-default">Câu hỏi khác</button></a>
+        <a href="/question/{{question.id}}"><button class="btn btn-default">Xem kết quả</button></a>
+    </div>
+    {{else}}
+    <h1 class="text-center">Không có câu hỏi nào!</h1>
+    {{/if}}
 </div>

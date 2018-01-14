@@ -1,4 +1,18 @@
-<form method="post" action="/ask">
-    <textarea name="question"></textarea>
-    <input type="submit" value="Gửi"/>
-</form>
+<div>
+    <h1>Hãy hỏi cộng đồng một câu hỏi đúng/sai hoặc có/không</h1>
+    <form method="post" action="/ask">
+        <textarea onkeyup='inputchange()' id="question" name="question" class="form-control" maxlength="200" rows="6"></textarea>
+        <h4 id="remain">Còn 200/200 kí tự</h4>
+        <input type="submit" value="Gửi" class="btn btn-primary"/>
+    </form>
+</div>
+
+<script>
+    var inputchange = function(){
+        let remainChar = 200 - $("#question").val().length;
+        $("#remain").html(`Còn ${remainChar}/200 kí tự`)
+    }
+
+    $(document).ready(function() {
+    })
+</script>

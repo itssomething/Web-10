@@ -3,23 +3,43 @@ const Router = express.Router();
 const questionController = require('../controller/questionController');
 
 Router.get('/', (req, res)=>{
-    let questionList = questionController.getQuestionList();
-    let randomQuestionId = Math.floor(Math.random()*questionList.length);
-    res.render('question', {
-        question: questionList[randomQuestionId]
-    })
+    questionController.getRandomQuestion((err, data)=>{
+        if (err) console.log(err);
+        if (data._id) {
+            res.render('question', {
+                question: data,
+                isAsk: "",
+                isQuestion: "active"
+            });
+        } else {
+            res.render('question', {
+                question: null,
+                isAsk: "",
+                isQuestion: "active"
+            });
+        }
+    });
 });
 
 Router.get('/:id', (req, res)=>{
-    let questionList = questionController.getQuestionList();
-    res.render('questionDetail', {
-        question: questionList[req.params.id]
-    })
+    questionController.getQuestionById(req.params.id, (err, data) => {
+        if(err) console.log(err);
+        res.render('questionDetail', {
+            question: data,
+            total: data.yes + data.no,
+            yes: (data.yes === 0 && data.no === 0) ? 50 : 100*data.yes/(data.yes+data.no),
+            no: (data.no === 0 && data.yes === 0) ? 50 : 100*data.no/(data.yes+data.no),
+            isAsk: "",
+            isQuestion: "active"
+        });
+    });
 });
 
 Router.post('/:id', (req, res)=>{
-    let id = questionController.updateAnswerQuestion(req.params.id, req.body.answer);
-    if (id) res.redirect(`/question/${id}`);
+    questionController.updateAnswerQuestion(req.params.id, req.body.answer, (err, data) => {
+        if(err) console.log(err);
+        if(data) res.redirect(`/question/${data}`);
+    });
 });
 
 module.exports = Router;

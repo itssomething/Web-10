@@ -1,41 +1,78 @@
-const fileController = require('./fileController');
-const dbPath = './db.json';
+const QuestionSchema = require('../model/questionModel');
 
-const getQuestionList = () => {
-    let questionList = [];
-    questionList = questionList.concat(fileController.readFileSync(dbPath));
-    return questionList;
+const getQuestionList = (callback) => {
+    QuestionSchema.find({}, (err, res)=>{
+        if(err) {
+            callback(err);
+        } else {
+            callback(null, res._id);
+        }
+    });
 }
 
-const addQuestion = (question) => {
-    let questionList = getQuestionList();
+const getRandomQuestion = (callback) => {
+    QuestionSchema.find({}, (err, res)=>{
+        if(err) {
+            callback(err);
+        } else {
+            let questionList = res;
+            let randomQuestionId = Math.floor(Math.random()*questionList.length);
+            callback(null, questionList[randomQuestionId]);
+        }
+    });
+}
+
+const addQuestion = (question, callback) => {
     let newQuestion = {
-        id: questionList.length,
-        question: question,
-        yes: 0,
-        no: 0
-    }
-    questionList.push(newQuestion);
-    fileController.writeFileSync(dbPath, questionList);
-    return newQuestion.id;
+        question
+    };
+    QuestionSchema.create(newQuestion, (err, res)=>{
+        if(err) {
+            callback(err);
+        } else {
+            callback(null, res._id);
+        }
+    });
 }
 
-const updateAnswerQuestion = (id, answer) => {
-    let questionList = getQuestionList();
-    if (answer === 'yes') {
-        questionList[id].yes = questionList[id].yes + 1;
-        fileController.writeFileSync(dbPath, questionList);
-        return id;
-    }
-    else if (answer === 'no') {
-        questionList[id].no = questionList[id].no + 1;
-        fileController.writeFileSync(dbPath, questionList);
-        return id;
-    }
+const updateAnswerQuestion = (id, answer, callback) => {
+    QuestionSchema.findById(id,(err, res)=>{
+        if(err){
+            callback(err);
+        } else {
+            let question = res;
+            if (answer === 'yes') {
+                question.yes = question.yes + 1;
+                question.save(function (err) {
+                    if (err) callback(err);
+                    callback(null, question._id);
+                });
+            }
+            else if (answer === 'no') {
+                question.no = question.no + 1;
+                question.save(function (err) {
+                    if (err) callback(err);
+                    callback(null, question._id);
+                });
+            }
+        }
+    })
+}
+
+const getQuestionById = (id, callback) => {
+    QuestionSchema.findById(id,(err, res)=>{
+        if(err){
+            callback(err);
+        } else {
+            callback(null, res)
+        }
+    });
 }
 
 module.exports = {
     addQuestion,
     getQuestionList,
-    updateAnswerQuestion
+    updateAnswerQuestion,
+    getQuestionById,
+    getRandomQuestion
 }

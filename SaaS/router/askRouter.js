@@ -3,17 +3,20 @@ const Router = express.Router();
 const questionController = require('../controller/questionController');
 
 Router.get('/', (req, res)=>{
-    console.log(req.query.question);
-    res.render("ask");
+    res.render("ask", {
+        isAsk: "active",
+        isQuestion: ""
+    });
 });
 
 Router.post('/', (req, res)=>{
-    let id = questionController.addQuestion(req.body.question);
-    if (id) {
-        res.redirect(`/question/${id}`);
-    } else {
-        console.log("Error");
-    }
+    questionController.addQuestion(req.body.question, (err, id)=>{
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect(`/question/${id}`);
+        }
+    });
 });
 
 module.exports = Router;
