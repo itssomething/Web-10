@@ -1,7 +1,7 @@
 const UserSchema = require('../models/userModel');
 
 
-const tryCreateUser = async ({ email, username, checkbox }) => new Promise((resolve, reject) => {
+const tryCreateUser = ({ email, username, checkbox }) => new Promise(async (resolve, reject) => {
   try {
     const requireEmail = !email;
     const requireUsername = !username;
