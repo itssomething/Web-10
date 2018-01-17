@@ -5,7 +5,6 @@ const questionController = require('../controller/questionController');
 Router.post('/:id', (req, res) => {
   questionController.updateAnswerQuestion(req.params.id, req.body.answer, (err, id) => {
     if (err) console.log(err);
-
     if (id) {
       questionController.getQuestionById(id, (err, data) => {
         if (err) console.log(err);
