@@ -13,9 +13,6 @@ app.use('/api/image', imageApi);
 
 mongoose.connect(
     'mongodb://localhost:27017/hotgirl',
-    {
-      useMongoClient: true
-    },
     (err) => {
       if (err) {
         console.log(err);

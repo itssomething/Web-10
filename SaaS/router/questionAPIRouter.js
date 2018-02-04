@@ -2,6 +2,12 @@ const express = require('express');
 const Router = express.Router();
 const questionController = require('../controller/questionController');
 
+// Get / -> getAll
+// Get /:id -> getById
+// Post / -> create
+// Put / -> update
+// Delete / -> delete
+
 Router.post('/:id', (req, res) => {
   questionController.updateAnswerQuestion(req.params.id, req.body.answer, (err, id) => {
     if (err) console.log(err);
