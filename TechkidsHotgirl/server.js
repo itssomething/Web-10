@@ -26,9 +26,9 @@ app.use(session({
 app.engine("handlebars", handlebars({ defaultLayout: 'main' }));
 app.set("view engine", "handlebars");
 
-app.get('/', (req, res)=>{
-  let token = req.session.token||req.cookies.token;
-  if(token) {
+app.get('/', (req, res) => {
+  let token = req.session.token || req.cookies.token;
+  if (token) {
     let data = jwt.verify(token, configs.secret_key);
     res.render('home', {
       isLogin: true,
@@ -42,13 +42,13 @@ app.get('/', (req, res)=>{
   }
 });
 
-app.post('/login', (req, res)=>{
-  auth.checkLogin(req.body, (err, username)=>{
-    if(err) {
+app.post('/login', (req, res) => {
+  auth.checkLogin(req.body, (err, username) => {
+    if (err) {
       console.log(err.message || err);
     } else {
-      if(!req.body.remember){
-        let token = jwt.sign({ username: username}, configs.secret_key);
+      if (!req.body.remember) {
+        let token = jwt.sign({ username: username }, configs.secret_key);
         req.session.token = token;
         res.redirect('/');
       } else {
@@ -60,7 +60,7 @@ app.post('/login', (req, res)=>{
   })
 });
 
-app.get('/logout', (req, res)=>{
+app.get('/logout', (req, res) => {
   if (req.session.token) {
     req.session.destroy();
     res.redirect('/');
@@ -79,17 +79,18 @@ app.use('/api/user', userApi);
 app.use(express.static("public"));
 
 mongoose.connect(
-    'mongodb://localhost:27017/hotgirl',
-    (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Database connect success!");
-      }
+  'mongodb://localhost:27017/hotgirl',
+  (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Database connect success!");
     }
-  );
+  }
+);
 
 app.listen(6969, (err) => {
-    if(err) console.log(err);
-    console.log('Server is up at port 6969');
-})
+  if (err) console.log(err);
+  console.log('Server is up at port 6969');
+});
+
