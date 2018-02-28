@@ -12,4 +12,4 @@ const imageSchema = new Schema({
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
 
-module.exports = mongoose.model('imageHihi', imageSchema);
+module.exports = mongoose.model('image', imageSchema);

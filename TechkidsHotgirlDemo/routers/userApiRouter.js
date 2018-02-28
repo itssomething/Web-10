@@ -11,25 +11,14 @@ Router.post('/', (req, res) => {
     });
 });
 
-Router.get(
-    '/',
-    (req, res, next) => {
-        if(req.session.token || req.cookies.token) {
-            console.log("Is login");
-            next();
-        } else {
-            res.send("Unauthorization");
+Router.get('/', (req, res) => {
+    userController.getAll((err, data)=>{
+        if (err) { res.send(err) }
+        else {
+            res.json({ message: 'Success!', data: data });
         }
-    },
-    (req, res) => {
-        console.log("Done")
-        userController.getAll((err, data)=>{
-            if (err) { res.send(err) }
-            else {
-                res.json({ message: 'Success!', data: data });
-            }
-        });
     });
+});
 
 Router.get('/:id', (req, res) => {
     userController.getById(req.params.id, (err, data)=>{

@@ -1,12 +1,7 @@
-const userModel = require('../models/userModel');
-const bcrypt = require('bcrypt');
+const imageModel = require('../models/imageModel');
 
-let create = (user, callback) => {
-    let newUser = {
-        username: user.username,
-        password: bcrypt.hashSync(user.password, bcrypt.genSaltSync(10))
-    }
-    userModel.create(newUser, (err, res)=>{
+let create = (image, callback) => {
+    imageModel.create(image, (err, res)=>{
         if(err) {
             console.log(err);
             callback('Create failed!');
@@ -17,7 +12,7 @@ let create = (user, callback) => {
 };
 
 let getAll = (callback) => {
-    userModel.find({}, (err, res)=>{
+    imageModel.find({}, (err, res)=>{
         if(err) {
             console.log(err);
             callback('Get failed!');
@@ -28,7 +23,7 @@ let getAll = (callback) => {
 };
 
 let getById = (id, callback) => {
-    userModel.findById(id, (err, res)=>{
+    imageModel.findById(id, (err, res)=>{
         if(err) {
             console.log(err);
             callback('Get failed!');
@@ -41,7 +36,7 @@ let getById = (id, callback) => {
 };
 
 let update = (data, callback) => {
-    userModel.findById(data._id, (err, res)=>{
+    imageModel.findById(data._id, (err, res)=>{
         if(err) {
             console.log(err);
             callback('Get failed!');
@@ -62,7 +57,7 @@ let update = (data, callback) => {
 };
 
 let deleteById = (id, callback) => {
-    userModel.remove({_id: id}, (err)=>{
+    imageModel.remove({_id: id}, (err)=>{
         if (err) {
             callback(err)
         } else {

@@ -1,10 +1,12 @@
 const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const configs = require('../configs.json')
 
 let create = (user, callback) => {
     let newUser = {
         username: user.username,
-        password: bcrypt.hashSync(user.password, bcrypt.genSaltSync(10))
+        avatarUrl: user.avatarUrl,
+        hashPassword: bcrypt.hashSync(user.password, bcrypt.genSaltSync(configs.saltRounds))
     }
     userModel.create(newUser, (err, res)=>{
         if(err) {
